@@ -1,4 +1,4 @@
 #!/bin/sh
-echo "Waiting 5 seconds..."
-#sleep 5
+# Shell script that executes the python camera server file
+echo "Starting Camera Server Script"
 exec ./multiCameraServer.py
