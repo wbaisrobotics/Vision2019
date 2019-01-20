@@ -1,4 +1,9 @@
 #!/bin/sh
 # Shell script that executes the python camera server file
+
+# Print out a statement for the beginning of the script
 echo "Starting Camera Server Script"
+# Cd into the source folder
+cd src
+# Execute the python file
 exec ./multiCameraServer.py
