@@ -2,7 +2,9 @@
 #### File defining the constants for vision processing
 
 ### Camera Properties
+
 ## Define properties
+
 # The contrast of the image
 contrast = 100;
 # The saturation of the image
@@ -24,3 +26,19 @@ cameraPropertiesJSON = '{"properties": [{"name": "contrast","value": %d}, {"name
 
 ### Vision Properties
 
+## HSV Filtering
+
+# The default hue low value (0 to 180) - can be overriden during run time
+hueLow = 0;
+# The default hue high value (0 to 180) - can be overriden during run time
+hueHigh = 180;
+
+# The default sat low value (0 to 255) - can be overriden during run time
+satLow = 0;
+# The default sat high value (0 to 255) - can be overriden during run time
+satHigh = 0;
+
+# The default val low value (0 to 255) - can be overriden during run time
+valLow = 0;
+# The default val high value (0 to 255) - can be overriden during run time
+valHigh = 0;

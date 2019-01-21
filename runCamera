@@ -6,4 +6,4 @@ echo "Starting Camera Server Script"
 # Cd into the source folder
 cd src
 # Execute the python file
-exec ./multiCameraServer.py
+exec ./run.py
