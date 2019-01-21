@@ -13,14 +13,15 @@ import numpy as np
 
 # Import cscore (FRC Library) for connecting more efficently to the streaming servers
 from cscore import CameraServer, VideoSource
-# Import network tables (FRC Library) for communicating with other nodes on the network
-from networktables import NetworkTablesInstance
 
 # Import the constants for vision processing
 import visionConstants
 
 # Imports the file in control of the cameras
 import cameraManager
+
+# Import the network table manager
+import networkTables
 
 # Filters for the HSV range given in visionConstants
 def filterHSV (frame):
@@ -34,6 +35,9 @@ def filterHSV (frame):
 # Initializes the camera manager
 cameraManager.init()
 
+# Initializes the network tables
+networkTables.init()
+
 # Gets a sink for processing frames from the pi camera
 cvSink = cameraManager.getPiCameraSink()
 
@@ -41,12 +45,14 @@ cvSink = cameraManager.getPiCameraSink()
 outputStream = cameraManager.getPiCameraStream()
 
 # Preallocate the image size before the loop ((rows, cols, depth), type)
+
 frame = np.zeros(shape=(visionConstants.height, visionConstants.width, 3), dtype=np.uint8)
 
 # Indefinetely (change this to be a signal from nt tables)
 while True:
+    
     # Grab a frame from the camera, returning the time of capture and the frame
-    time, frame = cvSink.grabFrame(img)
+    time, frame = cvSink.grabFrame(frame)
     # If error happened,
     if time == 0:
         # Send the output the error.
@@ -55,10 +61,13 @@ while True:
         continue
 
     # Convert the image to HSV for easier filtering
-    hsvFrame = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+    hsvFrame = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 
     # Filter the image to only a range of HSV values
     rangedFrame = filterHSV (hsvFrame);
     
     # (optional) send some image back to the dashboard
     outputStream.putFrame(rangedFrame)
+
+    # Update network table settings
+    networkTables.update();

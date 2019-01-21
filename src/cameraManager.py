@@ -4,6 +4,9 @@
 # Import the constants for vision processing
 import visionConstants
 
+# Import cscore (FRC Library) for connecting more efficently to the streaming servers and cameras
+from cscore import CameraServer, VideoSource
+
 # Initializes and sets up the RPi camera
 def initializeRPiCap():
     
@@ -36,4 +39,4 @@ def getPiCameraSink():
 # Returns a stream for sending processed pi camera images
 def getPiCameraStream():
     # Setup a CvSource. This will send images back to the computer
-    outputStream = CameraServer.getInstance().putVideo("Pi Camera", visionConstants.width, visionConstants.height)
+    return CameraServer.getInstance().putVideo("Pi Camera Stream", visionConstants.width, visionConstants.height)
