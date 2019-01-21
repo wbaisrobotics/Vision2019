@@ -23,6 +23,9 @@ import cameraManager
 # Import the network table manager
 import networkTables
 
+# Import the contour processor
+import contourProcessor
+
 # Filters for the HSV range given in visionConstants
 def filterHSV (frame):
     # Defines the lower range from the variables
@@ -65,9 +68,37 @@ while True:
 
     # Filter the image to only a range of HSV values
     rangedFrame = filterHSV (hsvFrame);
+
+    # Find the target in the image
+    contours, rects = contourProcessor.findTarget (rangedFrame);
+
+    # Draw the bounding rects
+    boxes = [np.int0(cv2.boxPoints (x)) for x in rects]
+    cv2.drawContours (frame, boxes, -1, (0, 255, 0), 3)
+
+    for contour in contours:
+
+        # Get the properties of the minimum area rectangle
+#(x, y), (width, height), angle = rect
+
+        M = cv2.moments(contour)
+
+        cX = int (M["m10"] / M["m00"])
+        cY = int (M["m01"] / M["m00"])
+
+        cv2.line (frame, (cX, cY), (int(visionConstants.width/2), int(visionConstants.height/2)), (255, 0, 0), 3)
+
+
+
+    # Get the properties of the minimum area rectangle
+#(x, y), (width, height), angle =
+
+    # Draw lines to the centers of the contours
+
+
     
-    # (optional) send some image back to the dashboard
-    outputStream.putFrame(rangedFrame)
+    # Send the result back to the driver station
+    outputStream.putFrame(frame)
 
     # Update network table settings
     networkTables.update();

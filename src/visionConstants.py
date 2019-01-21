@@ -12,7 +12,7 @@ saturation = 0;
 # Manual Exposure (1) or Auto Exposure (0)
 auto_exposure = 1;
 # The exposure time (in ms)
-exposure_time_absolute = 100;
+exposure_time_absolute = 214;
 # The brightness of the image
 brightness = 35;
 # The width of the image
@@ -29,16 +29,24 @@ cameraPropertiesJSON = '{"properties": [{"name": "contrast","value": %d}, {"name
 ## HSV Filtering
 
 # The default hue low value (0 to 180) - can be overriden during run time
-hueLow = 0;
+hueLow = 32;
 # The default hue high value (0 to 180) - can be overriden during run time
-hueHigh = 180;
+hueHigh = 87;
 
 # The default sat low value (0 to 255) - can be overriden during run time
 satLow = 0;
 # The default sat high value (0 to 255) - can be overriden during run time
-satHigh = 255;
+satHigh = 62;
 
 # The default val low value (0 to 255) - can be overriden during run time
-valLow = 0;
+valLow = 242;
 # The default val high value (0 to 255) - can be overriden during run time
 valHigh = 255;
+
+## Contour selection
+
+# Minimum area
+minArea = 400
+
+# Minimum rect fill
+minRectFill = 0.85
