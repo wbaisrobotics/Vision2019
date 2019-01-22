@@ -44,9 +44,12 @@ def findRectangles (frame):
 # Finds the FIRST Deep Space vision target amongst independent bounding rectangular
 def findDeepSpaceTarget (boundingRects):
     
-    # Define variables for finding the pair with the smallest error
+    ## Define variables for finding the pair with the smallest error
+    # Represents the smallest error to date as running the iterations (1000 to gurantee the default will be replaced)
     smallestError = 1000
+    # The index of the first rectangle in the pair of rectangles with the smallestError
     smallestErrorIndex1 = -1
+    # The index of the second rectangle in the pair of rectangles with the smallestError
     smallestErrorIndex2 = -1
 
     ## Iterate through each pair of bounding rects
@@ -62,15 +65,17 @@ def findDeepSpaceTarget (boundingRects):
             (x2, y2), (width2, height2), angle2 = rect2
 
             # Cacluate the error for the angle between them and the given field angle
-            error = visionConstants.targetAngle - (angle2 - angle1);
+            error = visionConstants.targetAngle - (angle2 - angle1)
 
             # If this error is smaller than all those before
             if (error < smallestError):
                 ## then remember these indices
                 # Save the index for the first one
-                smallestErrorIndex1 = index1;
+                smallestErrorIndex1 = index1
                 # Save the index for the second one
-                smallestErrorIndex2 = index2;
+                smallestErrorIndex2 = index2
+                # Save the error for future calculations
+                smallestError = error
 
     # Print out the results
     print ("The smallest angle error was: %d, at index1: %d & index2: %d" % (smallestError, smallestErrorIndex1, smallestErrorIndex2))
