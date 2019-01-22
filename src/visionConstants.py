@@ -49,4 +49,7 @@ valHigh = 255;
 minArea = 400
 
 # Minimum rect fill
-minRectFill = 0.85
+minRectFill = 0.7
+
+# Target angle between two rects (from manual) - in degrees
+targetAngle = 14.5

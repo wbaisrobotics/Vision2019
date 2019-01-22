@@ -19,11 +19,12 @@ def getMinAreaRect(contour):
 def passesMinimumRectFill(contour):
     # Get the properties of the minimum area rectangle
     (x, y), (width, height), angle = getMinAreaRect(contour)
+    print ((cv2.contourArea (contour)/(width * height)))
     # Return whether or not the contour fill is greater than the constant minimum
     return ((cv2.contourArea (contour)/(width * height)) > visionConstants.minRectFill)
 
 # Finds and analyzes the contours in the given frame (fitlered frame)
-def findTarget (frame):
+def findRectangles (frame):
 
     # Run the opencv findContours method to find groups of white pixels
     im2, contours, hierarchy = cv2.findContours (frame, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
@@ -37,6 +38,39 @@ def findTarget (frame):
     # Calculate the bounding rects for the final contours
     boundingRects = [getMinAreaRect(x) for x in minFillList]
 
-    print (len(minFillList))
-
+    # Returns the contours that have passes the filters and the cooresponding bounding rects
     return minFillList, boundingRects
+
+# Finds the FIRST Deep Space vision target amongst independent bounding rectangular
+def findDeepSpaceTarget (boundingRects):
+    
+    # Define variables for finding the pair with the smallest error
+    smallestError = 1000
+    smallestErrorIndex1 = -1
+    smallestErrorIndex2 = -1
+
+    ## Iterate through each pair of bounding rects
+    for index1, rect1 in enumerate (boundingRects):
+        
+        # Get the properties of the minimum area rectangle for rect1
+        (x1, y1), (width1, height1), angle1 = rect1
+        
+        # Iterate through each other pair
+        for index2, rect2 in enumerate (boundingRects):
+            
+            # Get the properties of the minimum area rectangle for rect2
+            (x2, y2), (width2, height2), angle2 = rect2
+
+            # Cacluate the error for the angle between them and the given field angle
+            error = visionConstants.targetAngle - (angle2 - angle1);
+
+            # If this error is smaller than all those before
+            if (error < smallestError):
+                ## then remember these indices
+                # Save the index for the first one
+                smallestErrorIndex1 = index1;
+                # Save the index for the second one
+                smallestErrorIndex2 = index2;
+
+    # Print out the results
+    print ("The smallest angle error was: %d, at index1: %d & index2: %d" % (smallestError, smallestErrorIndex1, smallestErrorIndex2))

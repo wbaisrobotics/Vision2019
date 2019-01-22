@@ -69,17 +69,14 @@ while True:
     # Filter the image to only a range of HSV values
     rangedFrame = filterHSV (hsvFrame);
 
-    # Find the target in the image
-    contours, rects = contourProcessor.findTarget (rangedFrame);
+    # Find the rectangular targets in the image
+    contours, rects = contourProcessor.findRectangles (rangedFrame);
 
     # Draw the bounding rects
     boxes = [np.int0(cv2.boxPoints (x)) for x in rects]
     cv2.drawContours (frame, boxes, -1, (0, 255, 0), 3)
 
     for contour in contours:
-
-        # Get the properties of the minimum area rectangle
-#(x, y), (width, height), angle = rect
 
         M = cv2.moments(contour)
 
