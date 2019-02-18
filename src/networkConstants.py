@@ -16,3 +16,18 @@ satHighKey = "Sat High"
 valLowKey = "Val Low"
 # The key for the val high value
 valHighKey = "Val High"
+
+# The key for whether or not vision should be running (true = run, false = stop)
+runKey = "Run Vision"
+
+# The key for x difference
+xDiffKey = "Target X Difference"
+
+# The key for y difference
+yDiffKey = "Target Y Difference"
+
+# The key for angle
+angleKey = "Target Angle"
+
+# The key for the outer-inner ratio
+oiRatioKey = "OI Ratio";

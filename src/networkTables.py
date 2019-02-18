@@ -35,6 +35,12 @@ def init ():
     # Write val high
     table.putNumber (networkConstants.valHighKey, visionConstants.valHigh)
 
+    # Write default run to true
+    table.putBoolean (networkConstants.runKey, True)
+
+    # Call for an update
+    update();
+
 # Updates the HSV range stored in visionConstants to values from the table
 def updateHSVRange ():
     
@@ -55,4 +61,29 @@ def updateHSVRange ():
 
 # Runs for each frame to update settings before next frame
 def update ():
+    
+    # Update the HSV range
     updateHSVRange()
+    
+    # Update the run boolean
+    visionConstants.run = table.getBoolean (networkConstants.runKey, True);
+
+# Sends the target data for xDiff, yDiff, angle, and oiRatio
+def sendTargetData (xDiff, yDiff, angle, oiRatio):
+
+    # Send the x difference
+    table.putNumber (networkConstants.xDiffKey, xDiff);
+
+    # Send the y difference
+    table.putNumber (networkConstants.yDiffKey, yDiff);
+
+    # Send the angle
+    table.putNumber (networkConstants.angleKey, angle);
+    
+    # Send the oiRatio
+    table.putNumber (networkConstants.oiRatioKey, oiRatio);
+
+    # Flush the table in order to immediately send the values
+    NetworkTablesInstance.getDefault().flush();
+
+
