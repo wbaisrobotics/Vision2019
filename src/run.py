@@ -26,7 +26,9 @@ import networkTables
 # Import the contour processor
 import contourProcessor
 
+# Import datetime for keeping track of time
 import datetime
+
 
 def drawPoint(p):
     cv2.circle(rangedFrame, (p[0], p[1]), 10, (255, 255, 0), 3);
@@ -59,32 +61,37 @@ frame = np.zeros(shape=(visionConstants.height, visionConstants.width, 3), dtype
 # Indefinetely (change this to be a signal from nt tables)
 while visionConstants.run:
 
+    # Measure the time at start
     start = datetime.datetime.now();
 
     # Grab a frame from the camera, returning the time of capture and the frame
     time, frame = cvSink.grabFrame(frame)
     # If error happened,
     if time == 0:
-        # Send the output the error.
+        # Output the error.
         print(cvSink.getError());
         # Skip the rest of the current iteration
         continue
 
+    # Measure the time after grabbing the frame
     afterFrameGrab = datetime.datetime.now();
 
     # Convert the image to HSV for easier filtering
-#    hsvFrame = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+    # hsvFrame = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 
+    # Measure the time after HSV conversion
     afterHSVConversion = datetime.datetime.now();
 
-    # Filter the image to only a range of HSV values
+    # Filter the image to only a range of values
     rangedFrame = filterHSV (frame);
 
+    # Measure the time after ranging the image
     afterRange = datetime.datetime.now();
 
     # Find the rectangular targets in the image
     contours, rects = contourProcessor.findRectangles (rangedFrame);
 
+    # Measure the time it took to find the rectangles
     afterFindRectangles = datetime.datetime.now();
 
     # Draw the bounding rects
@@ -93,55 +100,47 @@ while visionConstants.run:
 
     # Draw the lines to the rects
     for rect in rects:
-
+        
+        # Get the information from the rect
         (cX, cY), (width1, height1), angle1 = rect
 
+        # Draw a line to the rect center from the frame center
         cv2.line (frame, (int(cX), int(cY)), (int(visionConstants.width/2), int(visionConstants.height/2)), (255, 0, 0), 3)
 
-    # Attempts to locate a FIRST Deep Space Game Target
-    leftRect, rightRect = contourProcessor.findDeepSpaceTarget(rects);
+    # Attempt to locate a DEEP Space target given the rectangles
+    targetX, targetY, outerDistance, oiRatio = contourProcessor.findDeepSpaceTarget(rects);
 
+    # Measure the time after finding the deep space target
     afterFindTarget = datetime.datetime.now();
 
-#    # If target was found
-#    if (leftRect != -9999):
-#
-#        # Draw line to center of FIRST Deep Space target
-#        cv2.line (frame, (targetX, targetY), (int(visionConstants.width/2), int(visionConstants.height/2)), (0, 255, 0), 3)
-#
-#        # Calculate the x and y differences relative to the screen
-#        xDiff, yDiff = contourProcessor.calculateTargetDifferences(targetX, targetY);
-#
-#        # Immediately send the difference values through the network tables
-#        networkTables.sendTargetData (xDiff, yDiff, targetAngle, 0);
-#
-#    # If target not found
-#    if (targetX == -9999):
-#
-#        # Immediately send the error values through the network tables
-#        networkTables.sendTargetData (-9999, -9999, -9999, -9999);
+    # If target was found
+    if (targetX != -9999):
 
-    if (leftRect != -9999):
+        # Draw line to center of FIRST Deep Space target
+        cv2.line (frame, (targetX, targetY), (int(visionConstants.width/2), int(visionConstants.height/2)), (0, 255, 0), 3)
 
-        # Calculate the left verticies
-        leftVerticies = cv2.boxPoints(leftRect);
-        # Calculate the right verticies
-        rightVerticies = cv2.boxPoints(rightRect);
+        # Calculate the x and y differences relative to the screen
+        xDiff, yDiff = contourProcessor.calculateTargetDifferences(targetX, targetY);
 
-        # Combine the left and right into one verticies array
-        image_points = np.concatenate((leftVerticies, rightVerticies));
+        # Immediately send the difference values through the network tables
+        networkTables.sendTargetData (xDiff, yDiff, outerDistance, oiRatio);
 
-        np.apply_along_axis(drawPoint, axis=1, arr=image_points);
+    # If target not found
+    if (targetX == -9999):
 
+        # Immediately send the error values through the network tables
+        networkTables.sendTargetData (-9999, -9999, -9999, -9999);
 
     # Send the result back to the driver station
-    outputStream.putFrame(rangedFrame);
+    outputStream.putFrame(frame);
 
     # Update network table settings
     networkTables.update();
 
+    # Measure the time at the end
     end = datetime.datetime.now();
 
+    # Calculate the times for each calculation
     frameGrabTime = (afterFrameGrab - start).microseconds / 1000;
     hsvConversionTime = (afterHSVConversion-afterFrameGrab).microseconds / 1000;
     rangeTime = (afterRange - afterHSVConversion).microseconds / 1000;
@@ -149,4 +148,5 @@ while visionConstants.run:
     findTargetTime = (afterFindTarget - afterFindRectangles).microseconds / 1000;
     endTime = (end - afterFindTarget).microseconds / 1000;
 
+    # Log the time stamps
     print ("Time Report - Frame Grab: %d, HSV Conversion: %d, Range: %d, Find Rectangles: %d, Find Target: %d, End: %d" % (frameGrabTime, hsvConversionTime, rangeTime, findRectTime, findTargetTime, endTime));

@@ -97,7 +97,7 @@ def findDeepSpaceTarget (boundingRects):
         print ("DEEP Space Target not found")
         
         # Return error values
-        return -9999, -9999;
+        return -9999, -9999, -9999, -9999;
 
     # Get the properties of the minimum area rectangle for the first selected rectangle
     (rect1X, rect1Y), (rect1Width, rect1Height), rect1Angle = boundingRects [smallestErrorIndex1];
@@ -125,7 +125,7 @@ def findDeepSpaceTarget (boundingRects):
 #    print ("Rect1X: %d, Rect1Width: %d, Rect1Height: %d, Rect2X: %d, Rect2Width: %d" % (rect1X, rect1Width, rect1Height, rect2X, rect2Width));
 
     # Log the result
-#    print ("The center x: %d, y: %d, angle: %d" % (averageX, averageY, averageAngle));
+    print ("The center x: %d, y: %d, angle: %d" % (averageX, averageY, averageAngle));
 
     # If rect 1 is the left rectangle
     if (rect1X < rect2X):
@@ -165,12 +165,13 @@ def findDeepSpaceTarget (boundingRects):
         rightHeight = rect1Height;
         rightAngle = rect1Angle;
 
-    # Compute the real-world values
-    compute_output_values (leftRect, rightRect, (rect1X+rect2X)/2, (rect1Y+rect2Y)/2);
-        
-    # Return location of target center and the calculated values
-    return leftRect, rightRect;
-    #, float (outerDistance)/innerDistance;
+    # Compute the oi-ratio
+    outerDistance = (rightX + float(rightWidth)/2) - (leftX - float(leftWidth)/2);
+    innerDistance = (rightX - float(rightWidth)/2) - (leftX + float(leftWidth)/2);
+    oiRatio = float (outerDistance)/innerDistance;
+
+    # Return the results
+    return averageX, averageY, outerDistance/visionConstants.width, oiRatio;
 
 # Calculates the differences relative to the width and height of the screen
 # (returning xDiff in range [-1 (full left) 1 (full right)] and yDiff in range [-1 (full down) 1 (full up)])
@@ -186,12 +187,12 @@ def calculateTargetDifferences (x, y):
 
 # Compute real-world distances/angles based on the rectangles
 #def compute_output_values(leftRect, rightRect, centerX, centerY):
-#    
+#
 #    # Calculate the left verticies
 #    leftVerticies = cv2.boxPoints(leftRect);
 #    # Calculate the right verticies
 #    rightVerticies = cv2.boxPoints(rightRect);
-#    
+#
 #    # Combine the left and right into one verticies array
 #    image_points = np.concatenate((leftVerticies, rightVerticies));
 #    image_points[:,0] -= (centerX);
@@ -202,7 +203,7 @@ def calculateTargetDifferences (x, y):
 #
 #    # Compute robot orientation
 #    (ret, rvec, tvec) = cv2.solvePnP (visionConstants.model_points, image_points, visionConstants.mat, visionConstants.dist_coeffs);
-#    
+#
 #    # Compute the necessary output distance and angles
 #    x = tvec[0][0]
 #    y = tvec[1][0]

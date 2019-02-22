@@ -68,8 +68,8 @@ def update ():
     # Update the run boolean
     visionConstants.run = table.getBoolean (networkConstants.runKey, True);
 
-# Sends the target data for xDiff, yDiff, angle, and oiRatio
-def sendTargetData (xDiff, yDiff, angle, oiRatio):
+# Sends the target data for xDiff, yDiff, outerDist, and oiRatio
+def sendTargetData (xDiff, yDiff, outerDist, oiRatio):
 
     # Send the x difference
     table.putNumber (networkConstants.xDiffKey, xDiff);
@@ -78,7 +78,7 @@ def sendTargetData (xDiff, yDiff, angle, oiRatio):
     table.putNumber (networkConstants.yDiffKey, yDiff);
 
     # Send the angle
-    table.putNumber (networkConstants.angleKey, angle);
+    table.putNumber (networkConstants.outerDistKey, outerDist);
     
     # Send the oiRatio
     table.putNumber (networkConstants.oiRatioKey, oiRatio);

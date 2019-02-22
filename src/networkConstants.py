@@ -26,8 +26,8 @@ xDiffKey = "Target X Difference"
 # The key for y difference
 yDiffKey = "Target Y Difference"
 
-# The key for angle
-angleKey = "Target Angle"
+# The key for outer distance
+outerDistKey = "Outer Distance"
 
 # The key for the outer-inner ratio
 oiRatioKey = "OI Ratio";
