@@ -75,7 +75,7 @@ def findDeepSpaceTarget (boundingRects):
             (x2, y2), (width2, height2), angle2 = rect2
 
             # Cacluate the error for the angle between them and the given field angle
-            error = visionConstants.targetAngle - (angle2 - angle1)
+            error = abs(visionConstants.targetAngle - (angle2 - angle1));
 
             # If this error is smaller than all those before
             if (error < smallestError):
