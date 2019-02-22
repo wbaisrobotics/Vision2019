@@ -172,7 +172,7 @@ def findDeepSpaceTarget (boundingRects):
     ttsr = float ((leftHeight+rightHeight)/2) / visionConstants.height;
 
     # Return the results
-    return averageX, averageY, heightRatios, ttsr;
+    return averageX, averageY, heightRatio, ttsr;
 
 # Calculates the differences relative to the width and height of the screen
 # (returning xDiff in range [-1 (full left) 1 (full right)] and yDiff in range [-1 (full down) 1 (full up)])

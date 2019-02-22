@@ -1,6 +1,6 @@
 
 # File defining the constants for the network
-tableName = "SmartDashboard"
+tableName = "vision"
 
 # The key for the hue low value
 hueLowKey = "Hue Low"
@@ -26,8 +26,8 @@ xDiffKey = "Target X Difference"
 # The key for y difference
 yDiffKey = "Target Y Difference"
 
-# The key for outer distance
-heighRatioKey = "Height Ratio"
+# The key for height ratio
+heightRatioKey = "Height Ratio"
 
-# The key for the outer-inner ratio
+# The key for the ttsr
 ttsrKey = "TTSR Ratio";

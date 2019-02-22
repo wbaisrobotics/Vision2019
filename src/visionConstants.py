@@ -19,9 +19,9 @@ exposure_time_absolute = 100;
 # The brightness of the image
 brightness = 0;
 # The width of the image
-width = 640;
+width = 400;
 # The height of the image
-height = 480;
+height = 300;
 
 ## Define the JSON using the constants
 cameraPropertiesJSON = '{"properties": [{"name": "contrast","value": %d}, {"name": "saturation","value": %d}, {"name":"auto_exposure","value":%d}, {"name":"exposure_time_absolute","value":%d}, {"name":"brightness","value":%d}]}' % (contrast, saturation, auto_exposure, exposure_time_absolute, brightness);
@@ -37,9 +37,9 @@ hueLow = 100;
 hueHigh = 255;
 
 # The default sat low value (0 to 255) - can be overriden during run time
-satLow = 0;
+satLow = 100;
 # The default sat high value (0 to 255) - can be overriden during run time
-satHigh = 100;
+satHigh = 255;
 
 # The default val low value (0 to 255) - can be overriden during run time
 valLow = 0;
