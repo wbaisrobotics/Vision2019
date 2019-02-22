@@ -29,11 +29,6 @@ import contourProcessor
 # Import datetime for keeping track of time
 import datetime
 
-
-def drawPoint(p):
-    cv2.circle(rangedFrame, (p[0], p[1]), 10, (255, 255, 0), 3);
-    return 0;
-
 # Filters for the HSV range given in visionConstants
 def filterHSV (frame):
     # Defines the lower range from the variables
@@ -49,16 +44,16 @@ cameraManager.init()
 # Initializes the network tables
 networkTables.init()
 
-# Gets a sink for processing frames from the pi camera
-cvSink = cameraManager.getPiCameraSink()
+# Gets a sink for processing frames from the hatch vision camera
+cvSink = cameraManager.getHatchVisionCameraSink()
 
 # Gets a source for sending frames back to the dashboard
-outputStream = cameraManager.getPiCameraStream()
+outputStream = cameraManager.getHatchVisionCameraStream()
 
 # Preallocate the image size before the loop ((rows, cols, depth), type)
 frame = np.zeros(shape=(visionConstants.height, visionConstants.width, 3), dtype=np.uint8)
 
-# Indefinetely (change this to be a signal from nt tables)
+# While network tables indicate to run
 while visionConstants.run:
 
     # Measure the time at start
@@ -108,7 +103,7 @@ while visionConstants.run:
         cv2.line (frame, (int(cX), int(cY)), (int(visionConstants.width/2), int(visionConstants.height/2)), (255, 0, 0), 3)
 
     # Attempt to locate a DEEP Space target given the rectangles
-    targetX, targetY, outerDistance, oiRatio = contourProcessor.findDeepSpaceTarget(rects);
+    targetX, targetY, heightRatio, ttsr = contourProcessor.findDeepSpaceTarget(rects);
 
     # Measure the time after finding the deep space target
     afterFindTarget = datetime.datetime.now();
@@ -123,7 +118,7 @@ while visionConstants.run:
         xDiff, yDiff = contourProcessor.calculateTargetDifferences(targetX, targetY);
 
         # Immediately send the difference values through the network tables
-        networkTables.sendTargetData (xDiff, yDiff, outerDistance, oiRatio);
+        networkTables.sendTargetData (xDiff, yDiff, heightRatio, ttsr);
 
     # If target not found
     if (targetX == -9999):

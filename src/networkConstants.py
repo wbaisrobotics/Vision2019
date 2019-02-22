@@ -27,7 +27,7 @@ xDiffKey = "Target X Difference"
 yDiffKey = "Target Y Difference"
 
 # The key for outer distance
-outerDistKey = "Outer Distance"
+heighRatioKey = "Height Ratio"
 
 # The key for the outer-inner ratio
-oiRatioKey = "OI Ratio";
+ttsrKey = "TTSR Ratio";

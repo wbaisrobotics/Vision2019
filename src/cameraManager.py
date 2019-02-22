@@ -8,14 +8,14 @@ import visionConstants
 from cscore import CameraServer, VideoSource
 
 # Initializes and sets up the RPi camera
-def initializeRPiCap():
+def initializeHatchVisionCap():
     
     # Print out statement for intializing the camera
-    print("Starting RPI Camera")
+    print("Starting Hatch Vision Camera")
     
     # Initialize camera
     camera = CameraServer.getInstance() \
-        .startAutomaticCapture(name="Pi Camera", path="/dev/video0")
+        .startAutomaticCapture(name="Hatch Vision Camera", path="/dev/video0")
 
     # Sets the resolution of the camera
     camera.setResolution (visionConstants.width, visionConstants.height)
@@ -29,14 +29,14 @@ def initializeRPiCap():
 def init():
 
     # Initialize and define the properties of the camera
-    camera = initializeRPiCap()
+    camera = initializeHatchVisionCap()
 
-# Returns an image sink for processing frames from the pi camera
-def getPiCameraSink():
+# Returns an image sink for processing frames from the hatch vision camera
+def getHatchVisionCameraSink():
     # Get a CvSink that will capture images from the camera for processing
     return CameraServer.getInstance().getVideo()
 
-# Returns a stream for sending processed pi camera images
-def getPiCameraStream():
+# Returns a stream for sending processed hatch vision camera images
+def getHatchVisionCameraStream():
     # Setup a CvSource. This will send images back to the computer
-    return CameraServer.getInstance().putVideo("Pi Camera Stream", visionConstants.width, visionConstants.height)
+    return CameraServer.getInstance().putVideo("Hatch Vision Camera Stream", visionConstants.width, visionConstants.height)

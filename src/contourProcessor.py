@@ -90,7 +90,7 @@ def findDeepSpaceTarget (boundingRects):
     # Print out the results
 #    print ("The smallest angle error was: %d, at index1: %d & index2: %d" % (smallestError, smallestErrorIndex1, smallestErrorIndex2))
 
-    # Make sure it found something
+    # If it did not find the target
     if (smallestError == 10000):
         
         # Log the error
@@ -165,13 +165,14 @@ def findDeepSpaceTarget (boundingRects):
         rightHeight = rect1Height;
         rightAngle = rect1Angle;
 
-    # Compute the oi-ratio
-    outerDistance = (rightX + float(rightWidth)/2) - (leftX - float(leftWidth)/2);
-    innerDistance = (rightX - float(rightWidth)/2) - (leftX + float(leftWidth)/2);
-    oiRatio = float (outerDistance)/innerDistance;
+    # Compute the height-ratio
+    heightRatio = float (leftHeight)/rightHeight;
+
+    # Compute the ttsr (target height to screen height ratio)
+    ttsr = float ((leftHeight+rightHeight)/2) / visionConstants.height;
 
     # Return the results
-    return averageX, averageY, outerDistance/visionConstants.width, oiRatio;
+    return averageX, averageY, heightRatios, ttsr;
 
 # Calculates the differences relative to the width and height of the screen
 # (returning xDiff in range [-1 (full left) 1 (full right)] and yDiff in range [-1 (full down) 1 (full up)])
@@ -184,37 +185,3 @@ def calculateTargetDifferences (x, y):
 
     # Return calculated values
     return xDiff, yDiff;
-
-# Compute real-world distances/angles based on the rectangles
-#def compute_output_values(leftRect, rightRect, centerX, centerY):
-#
-#    # Calculate the left verticies
-#    leftVerticies = cv2.boxPoints(leftRect);
-#    # Calculate the right verticies
-#    rightVerticies = cv2.boxPoints(rightRect);
-#
-#    # Combine the left and right into one verticies array
-#    image_points = np.concatenate((leftVerticies, rightVerticies));
-#    image_points[:,0] -= (centerX);
-#    image_points[:,1] -= (centerY);
-#    image_points[:,1] *= -1;
-#    print (image_points);
-#    print (visionConstants.model_points);
-#
-#    # Compute robot orientation
-#    (ret, rvec, tvec) = cv2.solvePnP (visionConstants.model_points, image_points, visionConstants.mat, visionConstants.dist_coeffs);
-#
-#    # Compute the necessary output distance and angles
-#    x = tvec[0][0]
-#    y = tvec[1][0]
-#    z = tvec[2][0]
-#    # distance in the horizontal plane between camera and target
-#    distance = math.sqrt(x**2 + z**2)
-#    # horizontal angle between camera center line and target
-#    angle1 = math.atan2(x, z)
-#    rot, _ = cv2.Rodrigues(rvec)
-#    rot_inv = rot.transpose()
-#    pzero_world = np.matmul(rot_inv, -tvec)
-#    angle2 = math.atan2(pzero_world[0][0], pzero_world[2][0])
-#    print ("Distance: %f, Angle1: %f, Angle2: %f, X: %f, Y: %f, Z: %f, CenterY: %f" % (distance, angle1, angle2, x, y, z, centerY));
-#    return distance, angle1, angle2

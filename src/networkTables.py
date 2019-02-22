@@ -68,8 +68,8 @@ def update ():
     # Update the run boolean
     visionConstants.run = table.getBoolean (networkConstants.runKey, True);
 
-# Sends the target data for xDiff, yDiff, outerDist, and oiRatio
-def sendTargetData (xDiff, yDiff, outerDist, oiRatio):
+# Sends the target data for xDiff, yDiff, heighRatio, and ttsr
+def sendTargetData (xDiff, yDiff, heightRatio, ttsr):
 
     # Send the x difference
     table.putNumber (networkConstants.xDiffKey, xDiff);
@@ -77,11 +77,11 @@ def sendTargetData (xDiff, yDiff, outerDist, oiRatio):
     # Send the y difference
     table.putNumber (networkConstants.yDiffKey, yDiff);
 
-    # Send the angle
-    table.putNumber (networkConstants.outerDistKey, outerDist);
+    # Send the height ratio
+    table.putNumber (networkConstants.heightRatioKey, heightRatio);
     
-    # Send the oiRatio
-    table.putNumber (networkConstants.oiRatioKey, oiRatio);
+    # Send the ttsr
+    table.putNumber (networkConstants.ttsrKey, ttsr);
 
     # Flush the table in order to immediately send the values
     NetworkTablesInstance.getDefault().flush();
