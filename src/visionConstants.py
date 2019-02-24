@@ -4,6 +4,9 @@
 # Whether or not vision should run
 run = True;
 
+# Whether the ball cam is the cam being processed
+reverse = False;
+
 ### Camera Properties
 
 ## Define properties

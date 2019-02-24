@@ -45,10 +45,12 @@ cameraManager.init()
 networkTables.init()
 
 # Gets a sink for processing frames from the hatch vision camera
-cvSink = cameraManager.getHatchVisionCameraSink()
+hatchSink = cameraManager.getHatchVisionCameraSink();
+# Gets a sink for processing frames from the ball vision camera
+ballSink = getBallVisionCameraSink();
 
 # Gets a source for sending frames back to the dashboard
-outputStream = cameraManager.getHatchVisionCameraStream()
+outputStream = cameraManager.getVisionStream()
 
 # Preallocate the image size before the loop ((rows, cols, depth), type)
 frame = np.zeros(shape=(visionConstants.height, visionConstants.width, 3), dtype=np.uint8)
@@ -58,15 +60,27 @@ while visionConstants.run:
 
     # Measure the time at start
     start = datetime.datetime.now();
-
-    # Grab a frame from the camera, returning the time of capture and the frame
-    time, frame = cvSink.grabFrame(frame)
-    # If error happened,
-    if time == 0:
-        # Output the error.
-        print(cvSink.getError());
-        # Skip the rest of the current iteration
-        continue
+    
+    # If using the ball camera...
+    if (visionConstants.reverse):
+        # Grab a frame from the ball camera, returning the time of capture and the frame
+        time, frame = ballSink.grabFrame(frame)
+        # If error happened,
+        if time == 0:
+            # Output the error.
+            print(ballSink.getError());
+            # Skip the rest of the current iteration
+            continue
+    # If using the hatch camera
+    else:
+        # Grab a frame from the hatch camera, returning the time of capture and the frame
+        time, frame = hatchSink.grabFrame(frame)
+        # If error happened,
+        if time == 0:
+            # Output the error.
+            print(hatchSink.getError());
+            # Skip the rest of the current iteration
+                continue
 
     # Measure the time after grabbing the frame
     afterFrameGrab = datetime.datetime.now();
