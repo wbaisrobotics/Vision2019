@@ -56,3 +56,10 @@ minRectFill = 0.6
 
 # Target angle between two rects (from manual) - in degrees
 targetAngle = 30
+# Acceptable target angle error (in either direction)
+targetAngleError = 10
+
+# Target ratio for the target (total width / rect height average)
+targetRatio = 2.7854545455;
+# Acceptable target ratio error (in either direction)
+targetRatioError = 1
