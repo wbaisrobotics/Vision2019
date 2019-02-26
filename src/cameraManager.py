@@ -25,6 +25,24 @@ def initializeHatchVisionCap():
     # Return the created camera
     return camera
 
+# Initializes and sets up the Hatch Driver camera
+def initializeHatcherDriverCap():
+    
+    # Print out statement for intializing the camera
+    print("Starting Hatch Driver Camera")
+    
+    # Initialize camera
+    camera = CameraServer.getInstance() \
+        .startAutomaticCapture(name="Hatch Driver Camera", path="/dev/video2")
+    
+    # Sets the resolution of the camera
+    camera.setResolution (visionConstants.width, visionConstants.height)
+    # Sets the config JSON to that defined in visionConstants
+    camera.setConfigJson(visionConstants.cameraPropertiesJSON);
+    
+    # Return the created camera
+    return camera
+
 # Initializes and sets up the Ball Vision camera
 def initializeBallVisionCap():
     
@@ -51,6 +69,8 @@ def init():
     hatchCam = initializeHatchVisionCap()
     global ballCam
     ballCam = initializeBallVisionCap();
+    initializeHatcherDriverCap();
+
 
 # Returns an image sink for processing frames from the hatch vision camera
 def getHatchVisionCameraSink():
