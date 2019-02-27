@@ -75,12 +75,12 @@ def init():
 # Returns an image sink for processing frames from the hatch vision camera
 def getHatchVisionCameraSink():
     # Get a CvSink that will capture images from the camera for processing
-    return CameraServer.getInstance().getVideo(hatchCam)
+    return CameraServer.getInstance().getVideo(camera=hatchCam);
 
 # Returns an image sink for processing frames from the ball vision camera
 def getBallVisionCameraSink():
     # Get a CvSink that will capture images from the camera for processing
-    return CameraServer.getInstance().getVideo(ballCam)
+    return CameraServer.getInstance().getVideo(camera=ballCam);
 
 # Returns a stream for sending processed frames
 def getVisionStream():

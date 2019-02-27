@@ -35,19 +35,19 @@ cameraPropertiesJSON = '{"properties": [{"name": "contrast","value": %d}, {"name
 ## HSV Filtering
 
 # The default hue low value (0 to 360) - can be overriden during run time
-hueLow = 100;
+hueLow = 240;
 # The default hue high value (0 to 360) - can be overriden during run time
 hueHigh = 255;
 
 # The default sat low value (0 to 255) - can be overriden during run time
-satLow = 100;
+satLow = 120;
 # The default sat high value (0 to 255) - can be overriden during run time
 satHigh = 255;
 
 # The default val low value (0 to 255) - can be overriden during run time
-valLow = 0;
+valLow = 100;
 # The default val high value (0 to 255) - can be overriden during run time
-valHigh = 100;
+valHigh = 255;
 
 ## Contour selection
 

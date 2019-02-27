@@ -47,7 +47,7 @@ networkTables.init()
 # Gets a sink for processing frames from the hatch vision camera
 hatchSink = cameraManager.getHatchVisionCameraSink();
 # Gets a sink for processing frames from the ball vision camera
-ballSink = getBallVisionCameraSink();
+ballSink = cameraManager.getBallVisionCameraSink();
 
 # Gets a source for sending frames back to the dashboard
 outputStream = cameraManager.getVisionStream()
@@ -80,7 +80,7 @@ while visionConstants.run:
             # Output the error.
             print(hatchSink.getError());
             # Skip the rest of the current iteration
-                continue
+            continue;
 
     # Measure the time after grabbing the frame
     afterFrameGrab = datetime.datetime.now();
