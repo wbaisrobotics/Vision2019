@@ -48,6 +48,8 @@ def findRectangles (frame):
     return minFillList, boundingRects
 
 # Finds the FIRST Deep Space vision target amongst independent bounding rectangular
+# Considers the possibility for multiple targets to be in sight, and implements various methods to choose
+# the target closest to the center of the screen
 def findDeepSpaceTarget (boundingRects):
     
     ## Define variables for finding the pair with the smallest error
@@ -58,46 +60,73 @@ def findDeepSpaceTarget (boundingRects):
     # The index of the second rectangle in the pair of rectangles with the smallestError
     smallestErrorIndex2 = -1
 
-    ## Iterate through each pair of bounding rects
+    # Iterate through each pair of bounding rects
     for index1, rect1 in enumerate (boundingRects):
-        
+
         # Get the properties of the minimum area rectangle for rect1
         (x1, y1), (width1, height1), angle1 = rect1
-        
+
         # Iterate through each other pair
         for index2, rect2 in enumerate (boundingRects):
-            
+
             # If rect1==rect2
             if (index2 == index1):
                 continue;
-            
+
             # Get the properties of the minimum area rectangle for rect2
             (x2, y2), (width2, height2), angle2 = rect2
+            
+            
+            ## Angle test (to make sure the contours found are in fact the deep space reflective targets)
 
-            # Cacluate the error for the angle between them and the given field angle
-            error = abs(visionConstants.targetAngle - (angle2 - angle1));
+            # Cacluate the angle error for the angle between them and the given field angle
+            angleError = abs(visionConstants.targetAngle - (angle2 - angle1));
 
-            # If this error is smaller than all those before
-            if (error < smallestError):
-                ## then remember these indices
-                # Save the index for the first one
-                smallestErrorIndex1 = index1
-                # Save the index for the second one
-                smallestErrorIndex2 = index2
-                # Save the error for future calculations
-                smallestError = error
+            # If this angle error is acceptable (within the error specified in vision constants)
+            if (angleError < visionConstants.targetAngleError):
+                
+                
+                ## Target ratio test (to make sure the two rectangles belong to the same target - two rects from different targets would have a significantly larger ratio)
+                
+                # Calculate the target ratio error (width / average height)
+                targetRatioError = abs(abs((x1 - x2) / ((height1 + height2)/2)) - visionConstants.targetRatio);
+                
+                # And the target ratio is acceptable
+                if (targetRatioError < visionConstants.targetRatioError):
+                    
+                    
+                    ## Find the target closest to the center of the screen and follow that one
+                    
+                    # Calculate distance to center of screen from center of target (in order to use the target closest to middle)
+                    distanceToCenter = ((x1 + x2)/2) - (visionConstants.width/2);
 
-    # Print out the results
-#    print ("The smallest angle error was: %d, at index1: %d & index2: %d" % (smallestError, smallestErrorIndex1, smallestErrorIndex2))
+                    # And this target has a closer distance to the center than the one before it
+                    if (distanceToCenter < smallestError):
+                        
+                        # TEMPORARY PRINT for testing
+                        print ("Replaced previous record. Data - angleError: %d, targetRatioError: %d, distanceToCenter: %d, previousDistanceToCenter: %d" % (angleError, targetRatioError, distanceToCenter. smallestError));
+                        
+                        ## then remember these indices
+                        
+                        # Save the index for the first one
+                        smallestErrorIndex1 = index1
+                        # Save the index for the second one
+                        smallestErrorIndex2 = index2
+                        # Save the error for future calculations
+                        smallestError = distanceToCenter
+                    
+                    
+                
 
     # If it did not find the target
     if (smallestError == 10000):
-        
+
         # Log the error
         print ("DEEP Space Target not found")
-        
+
         # Return error values
         return -9999, -9999, -9999, -9999;
+
 
     # Get the properties of the minimum area rectangle for the first selected rectangle
     (rect1X, rect1Y), (rect1Width, rect1Height), rect1Angle = boundingRects [smallestErrorIndex1];
