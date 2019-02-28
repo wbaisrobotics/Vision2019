@@ -76,11 +76,22 @@ def findDeepSpaceTarget (boundingRects):
             # Get the properties of the minimum area rectangle for rect2
             (x2, y2), (width2, height2), angle2 = rect2
             
-            
             ## Angle test (to make sure the contours found are in fact the deep space reflective targets)
+            
+            # If rect 1 is the left rectangle
+            if (x1 < x2):
+                angleL = angle1;
+                angleR = angle2;
+                    
+            # If rect 2 is the left rectangle
+            if (x2 <= x1):
+                angleL = angle2;
+                angleR = angle1;
 
             # Cacluate the angle error for the angle between them and the given field angle
-            angleError = abs(visionConstants.targetAngle - (angle2 - angle1));
+            angleError = abs(visionConstants.targetAngle - ((90-abs(angleL)) + abs(angleR)));
+            
+            print ("AngleL: %d, AngleR: %d, Error: %d" % (angleL, angleR, angleError));
 
             # If this angle error is acceptable (within the error specified in vision constants)
             if (angleError < visionConstants.targetAngleError):
@@ -91,6 +102,8 @@ def findDeepSpaceTarget (boundingRects):
                 # Calculate the target ratio error (width / average height)
                 targetRatioError = abs(abs((x1 - x2) / ((height1 + height2)/2)) - visionConstants.targetRatio);
                 
+                print (targetRatioError);
+                
                 # And the target ratio is acceptable
                 if (targetRatioError < visionConstants.targetRatioError):
                     
@@ -98,13 +111,13 @@ def findDeepSpaceTarget (boundingRects):
                     ## Find the target closest to the center of the screen and follow that one
                     
                     # Calculate distance to center of screen from center of target (in order to use the target closest to middle)
-                    distanceToCenter = ((x1 + x2)/2) - (visionConstants.width/2);
+                    distanceToCenter = abs(((x1 + x2)/2) - (visionConstants.width/2));
 
                     # And this target has a closer distance to the center than the one before it
                     if (distanceToCenter < smallestError):
                         
                         # TEMPORARY PRINT for testing
-                        print ("Replaced previous record. Data - angleError: %d, targetRatioError: %d, distanceToCenter: %d, previousDistanceToCenter: %d" % (angleError, targetRatioError, distanceToCenter. smallestError));
+                        print ("Replaced previous record. Data - angleError: %d, targetRatioError: %d, distanceToCenter: %d, previousDistanceToCenter: %d" % (angleError, targetRatioError, distanceToCenter, smallestError));
                         
                         ## then remember these indices
                         

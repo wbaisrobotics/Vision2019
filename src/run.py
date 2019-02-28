@@ -77,6 +77,8 @@ while True:
             if time == 0:
                 # Output the error.
                 print(ballSink.getError());
+                # Update network table settings
+                networkTables.update();
                 # Skip the rest of the current iteration
                 continue
         # If using the hatch camera
@@ -87,6 +89,8 @@ while True:
             if time == 0:
                 # Output the error.
                 print(hatchSink.getError());
+                # Update network table settings
+                networkTables.update();
                 # Skip the rest of the current iteration
                 continue;
 

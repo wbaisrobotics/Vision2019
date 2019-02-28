@@ -22,9 +22,9 @@ exposure_time_absolute = 1;
 # The brightness of the image
 brightness = 0;
 # The width of the image
-width = 160;
+width = 320;
 # The height of the image
-height = 120;
+height = 240;
 
 ## Define the JSON using the constants
 cameraPropertiesJSON = '{"properties": [{"name": "contrast","value": %d}, {"name": "saturation","value": %d}, {"name":"auto_exposure","value":%d}, {"name":"exposure_time_absolute","value":%d}, {"name":"brightness","value":%d}]}' % (contrast, saturation, auto_exposure, exposure_time_absolute, brightness);
@@ -60,9 +60,9 @@ minRectFill = 0.6
 # Target angle between two rects (from manual) - in degrees
 targetAngle = 30
 # Acceptable target angle error (in either direction)
-targetAngleError = 10
+targetAngleError = 15
 
 # Target ratio for the target (total width / rect height average)
 targetRatio = 2.7854545455;
 # Acceptable target ratio error (in either direction)
-targetRatioError = 1
+targetRatioError = 1.0
