@@ -4,6 +4,9 @@
 # Whether or not vision should run
 run = True;
 
+# Whether the ball cam is the cam being processed
+reverse = False;
+
 ### Camera Properties
 
 ## Define properties
@@ -15,13 +18,13 @@ saturation = 100;
 # Manual Exposure (1) or Auto Exposure (0)
 auto_exposure = 0;
 # The exposure time (in ms)
-exposure_time_absolute = 100;
+exposure_time_absolute = 1;
 # The brightness of the image
 brightness = 0;
 # The width of the image
-width = 320;
+width = 160;
 # The height of the image
-height = 240;
+height = 120;
 
 ## Define the JSON using the constants
 cameraPropertiesJSON = '{"properties": [{"name": "contrast","value": %d}, {"name": "saturation","value": %d}, {"name":"auto_exposure","value":%d}, {"name":"exposure_time_absolute","value":%d}, {"name":"brightness","value":%d}]}' % (contrast, saturation, auto_exposure, exposure_time_absolute, brightness);
@@ -32,9 +35,9 @@ cameraPropertiesJSON = '{"properties": [{"name": "contrast","value": %d}, {"name
 ## HSV Filtering
 
 # The default hue low value (0 to 360) - can be overriden during run time
-hueLow = 100;
+hueLow = 0;
 # The default hue high value (0 to 360) - can be overriden during run time
-hueHigh = 255;
+hueHigh = 100;
 
 # The default sat low value (0 to 255) - can be overriden during run time
 satLow = 100;
@@ -44,9 +47,9 @@ satHigh = 255;
 # The default val low value (0 to 255) - can be overriden during run time
 valLow = 0;
 # The default val high value (0 to 255) - can be overriden during run time
-valHigh = 100;
+valHigh = 50;
 
-## Contour selection
+## Contour selections
 
 # Minimum area
 minArea = 100

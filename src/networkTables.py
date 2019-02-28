@@ -37,6 +37,9 @@ def init ():
 
     # Write default run to true
     table.putBoolean (networkConstants.runKey, True)
+    
+    # Write default reverse to false
+    table.putBoolean (networkConstants.reverseKey, False);
 
     # Call for an update
     update();
@@ -67,6 +70,9 @@ def update ():
     
     # Update the run boolean
     visionConstants.run = table.getBoolean (networkConstants.runKey, True);
+
+    # Update the reverse boolean
+    visionConstants.reverse = table.getBoolean (networkConstants.reverseKey, True);
 
 # Sends the target data for xDiff, yDiff, heighRatio, and ttsr
 def sendTargetData (xDiff, yDiff, heightRatio, ttsr):

@@ -20,6 +20,9 @@ valHighKey = "Val High"
 # The key for whether or not vision should be running (true = run, false = stop)
 runKey = "Run Vision"
 
+# The key for whether or not vision should be reverse (true = reverse (ball cam), false = normal (hatch))
+reverseKey = "Reverse"
+
 # The key for x difference
 xDiffKey = "Target X Difference"
 
