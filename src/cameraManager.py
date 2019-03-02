@@ -15,7 +15,7 @@ def initializeHatchVisionCap():
     
     # Initialize camera
     camera = CameraServer.getInstance() \
-        .startAutomaticCapture(name="Hatch Vision Camera", path="/dev/v4l/by-path/platform-3f980000.usb-usb-0:1.4:1.0-video-index0")
+        .startAutomaticCapture(name="Hatch Vision Camera", path="/dev/v4l/by-path/platform-3f980000.usb-usb-0:1.3:1.0-video-index0")
 
     # Sets the resolution of the camera
     camera.setResolution (visionConstants.width, visionConstants.height)
@@ -33,7 +33,7 @@ def initializeHatcherDriverCap():
     
     # Initialize camera
     camera = CameraServer.getInstance() \
-        .startAutomaticCapture(name="Hatch Driver Camera", path="/dev/v4l/by-path/platform-3f980000.usb-usb-0:1.3:1.0-video-index0")
+        .startAutomaticCapture(name="Hatch Driver Camera", path="")
     
     # Sets the resolution of the camera
     camera.setResolution (160, 120)
@@ -54,7 +54,7 @@ def initializeBallVisionCap():
     
     # Initialize camera
     camera = CameraServer.getInstance() \
-        .startAutomaticCapture(name="Ball Vision Camera", path="/dev/v4l/by-path/platform-3f980000.usb-usb-0:1.5:1.0-video-index0")
+        .startAutomaticCapture(name="Ball Vision Camera", path="")
     
     # Sets the resolution of the camera
     camera.setResolution (160, 120)
