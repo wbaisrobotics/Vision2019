@@ -73,11 +73,11 @@ def init():
 
 def lowBrtMode():
 
-    hatchCam.setBrightness (1);
+    hatchCam.setBrightness (0);
 
 def highBrtMode():
 
-    hatchCam.setBrightness (100);
+    hatchCam.setBrightness (50);
 
 
 # Returns an image sink for processing frames from the hatch vision camera

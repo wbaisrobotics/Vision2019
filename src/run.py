@@ -64,7 +64,7 @@ while True:
         
 #        print ("LOW BRT");
 
-#        cameraManager.lowBrtMode();
+        cameraManager.lowBrtMode();
 
         # Measure the time at start
         start = datetime.datetime.now();
@@ -172,14 +172,14 @@ while True:
         # Log the time stamps
         print ("Time Report - Frame Grab: %d, HSV Conversion: %d, Range: %d, Find Rectangles: %d, Find Target: %d, End: %d" % (frameGrabTime, hsvConversionTime, rangeTime, findRectTime, findTargetTime, endTime));
 
-#    else:
-#
+    else:
+
 #        print ("HIGH BRT");
-#
-#        cameraManager.highBrtMode();
-#
-#        # Update network table settings
-#        networkTables.update();
+
+        cameraManager.highBrtMode();
+
+        # Update network table settings
+        networkTables.update();
 
 
 

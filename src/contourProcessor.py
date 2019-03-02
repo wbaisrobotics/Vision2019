@@ -13,6 +13,7 @@ import math
 
 # Whether or not the given contour passes the minimum area test
 def passesMinimumArea(contour):
+#    print (cv2.contourArea (contour));
     # Return whether or not the contour area is greater than the constant minimum
     return (cv2.contourArea (contour) > visionConstants.minArea)
 
@@ -91,7 +92,7 @@ def findDeepSpaceTarget (boundingRects):
             # Cacluate the angle error for the angle between them and the given field angle
             angleError = abs(visionConstants.targetAngle - ((90-abs(angleL)) + abs(angleR)));
             
-            print ("AngleL: %d, AngleR: %d, Error: %d" % (angleL, angleR, angleError));
+#            print ("AngleL: %d, AngleR: %d, Error: %d" % (angleL, angleR, angleError));
 
             # If this angle error is acceptable (within the error specified in vision constants)
             if (angleError < visionConstants.targetAngleError):
