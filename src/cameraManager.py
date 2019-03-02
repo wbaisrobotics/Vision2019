@@ -15,7 +15,7 @@ def initializeHatchVisionCap():
     
     # Initialize camera
     camera = CameraServer.getInstance() \
-        .startAutomaticCapture(name="Hatch Vision Camera", path="/dev/v4l/by-path/platform-3f980000.usb-usb-0:1.3:1.0-video-index0")
+        .startAutomaticCapture(name="Hatch Vision Camera", path="/dev/v4l/by-path/platform-3f980000.usb-usb-0:1.4:1.0-video-index0")
 
     # Sets the resolution of the camera
     camera.setResolution (visionConstants.width, visionConstants.height)
@@ -33,13 +33,16 @@ def initializeHatcherDriverCap():
     
     # Initialize camera
     camera = CameraServer.getInstance() \
-        .startAutomaticCapture(name="Hatch Driver Camera", path="/dev/v4l/by-path/platform-3f980000.usb-usb-0:1.2:1.0-video-index0")
+        .startAutomaticCapture(name="Hatch Driver Camera", path="/dev/v4l/by-path/platform-3f980000.usb-usb-0:1.3:1.0-video-index0")
     
     # Sets the resolution of the camera
-    camera.setResolution (visionConstants.width, visionConstants.height)
+    camera.setResolution (160, 120)
+    camera.setBrightness (30);
+    camera.setFPS (15);
+    camera.setExposureAuto ();
     # Sets the config JSON to that defined in visionConstants
-    camera.setConfigJson(visionConstants.cameraPropertiesJSON);
-    
+#    camera.setConfigJson(visionConstants.cameraPropertiesJSON);
+
     # Return the created camera
     return camera
 
@@ -51,13 +54,16 @@ def initializeBallVisionCap():
     
     # Initialize camera
     camera = CameraServer.getInstance() \
-        .startAutomaticCapture(name="Ball Vision Camera", path="")
+        .startAutomaticCapture(name="Ball Vision Camera", path="/dev/v4l/by-path/platform-3f980000.usb-usb-0:1.5:1.0-video-index0")
     
     # Sets the resolution of the camera
-    camera.setResolution (visionConstants.width, visionConstants.height)
+    camera.setResolution (160, 120)
+    camera.setBrightness (30);
+    camera.setFPS (15);
+    camera.setExposureAuto ();
     # Sets the config JSON to that defined in visionConstants
-    camera.setConfigJson(visionConstants.cameraPropertiesJSON);
-    
+#    camera.setConfigJson(visionConstants.cameraPropertiesJSON);
+
     # Return the created camera
     return camera
 
@@ -74,10 +80,12 @@ def init():
 def lowBrtMode():
 
     hatchCam.setBrightness (0);
+    hatchCam.setFPS (30);
 
 def highBrtMode():
 
-    hatchCam.setBrightness (50);
+    hatchCam.setBrightness (85);
+    hatchCam.setFPS (15);
 
 
 # Returns an image sink for processing frames from the hatch vision camera
