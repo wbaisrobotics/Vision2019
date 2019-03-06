@@ -36,7 +36,7 @@ def init ():
     table.putNumber (networkConstants.valHighKey, visionConstants.valHigh)
 
     # Write default run to true
-    table.putBoolean (networkConstants.runKey, True)
+    table.putBoolean (networkConstants.runKey, False)
     
     # Write default reverse to false
     table.putBoolean (networkConstants.reverseKey, False);

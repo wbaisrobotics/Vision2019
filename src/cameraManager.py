@@ -16,6 +16,8 @@ def initializeHatchVisionCap():
     # Initialize camera
     camera = CameraServer.getInstance() \
         .startAutomaticCapture(name="Hatch Vision Camera", path="/dev/v4l/by-path/platform-3f980000.usb-usb-0:1.4:1.0-video-index0")
+    
+    camera.setFPS (10);
 
     # Sets the resolution of the camera
     camera.setResolution (visionConstants.width, visionConstants.height)
@@ -38,7 +40,7 @@ def initializeHatcherDriverCap():
     # Sets the resolution of the camera
     camera.setResolution (160, 120)
     camera.setBrightness (30);
-    camera.setFPS (15);
+    camera.setFPS (10);
     camera.setExposureAuto ();
     # Sets the config JSON to that defined in visionConstants
 #    camera.setConfigJson(visionConstants.cameraPropertiesJSON);
@@ -59,8 +61,14 @@ def initializeBallVisionCap():
     # Sets the resolution of the camera
     camera.setResolution (160, 120)
     camera.setBrightness (30);
-    camera.setFPS (15);
+    camera.setFPS (10);
     camera.setExposureAuto ();
+
+    ballCameraPropertiesJSON = '{"properties": [{"name": "tilt_absolute","value": 0}]}';
+
+
+    camera.setConfigJson (ballCameraPropertiesJSON);
+    
     # Sets the config JSON to that defined in visionConstants
 #    camera.setConfigJson(visionConstants.cameraPropertiesJSON);
 
@@ -81,11 +89,13 @@ def lowBrtMode():
 
     hatchCam.setBrightness (0);
     hatchCam.setFPS (30);
+    hatchCam.setExposureManual (0);
 
 def highBrtMode():
 
-    hatchCam.setBrightness (85);
+    hatchCam.setBrightness (50);
     hatchCam.setFPS (15);
+    hatchCam.setExposureAuto ();
 
 
 # Returns an image sink for processing frames from the hatch vision camera
