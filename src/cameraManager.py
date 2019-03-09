@@ -5,7 +5,7 @@
 import visionConstants
 
 # Import cscore (FRC Library) for connecting more efficently to the streaming servers and cameras
-from cscore import CameraServer, VideoSource
+from cscore import CameraServer, VideoSource, UsbCamera
 
 # Initializes and sets up the Hatch Vision camera
 def initializeHatchVisionCap():
@@ -13,17 +13,49 @@ def initializeHatchVisionCap():
     # Print out statement for intializing the camera
     print("Starting Hatch Vision Camera")
     
-    # Initialize camera
-    camera = CameraServer.getInstance() \
-        .startAutomaticCapture(name="Hatch Vision Camera", path="/dev/v4l/by-path/platform-3f980000.usb-usb-0:1.3:1.0-video-index0")
+    inst = CameraServer.getInstance()
+    camera = UsbCamera("Hatch Vision", "/dev/v4l/by-path/platform-3f980000.usb-usb-0:1.3:1.0-video-index0")
+    server = inst.startAutomaticCapture(camera=camera, return_server=True)
+    print (camera);
+    print (server);
+    
+    camera.setFPS (30);
+    camera.setConnectionStrategy(VideoSource.ConnectionStrategy.kKeepOpen)
+    
+    ###
+    streamConfig = '{"properties": [{"name": "compression","value": 50}]}';
+    ##
+    server.setConfigJson(streamConfig)
 
-    # Sets the resolution of the camera
+    
+    #    # Sets the resolution of the camera
     camera.setResolution (visionConstants.width, visionConstants.height)
-    # Sets the config JSON to that defined in visionConstants
+    #    # Sets the config JSON to that defined in visionConstants
     camera.setConfigJson(visionConstants.cameraPropertiesJSON);
     
-    # Return the created camera
     return camera
+    
+    
+    
+    # Initialize camera
+#    camera = CameraServer.getInstance() \
+#        .startAutomaticCapture(name="Hatch Vision Camera", path="/dev/v4l/by-path/platform-3f980000.usb-usb-0:1.3:1.0-video-index0")
+#
+#
+#    hatchVisionCam = UsbCamera("Hatch Vision Camera", "/dev/v4l/by-path/platform-3f980000.usb-usb-0:1.3:1.0-video-index0")
+#
+#    server = CameraServer.getInstance().addServer(name="Hatch Vision Camera");
+#    server.setSource (hatchVisionCam);
+##
+#    hatchVisionCam.setFPS (30);
+###
+#    server = CameraServer.getInstance().startAutomaticCapture(camera=hatchVisionCam, return_server=True)
+
+##
+
+
+    # Return the created camera
+#    return hatchVisionCam;
 
 # Initializes and sets up the Hatch Driver camera
 def initializeHatcherDriverCap():
@@ -79,13 +111,11 @@ def init():
 
 def lowBrtMode():
 
-    hatchCam.setBrightness (0);
-    hatchCam.setFPS (30);
+    hatchCam.setExposureManual (0);
 
 def highBrtMode():
 
-    hatchCam.setBrightness (85);
-    hatchCam.setFPS (15);
+    hatchCam.setExposureAuto ();
 
 
 # Returns an image sink for processing frames from the hatch vision camera

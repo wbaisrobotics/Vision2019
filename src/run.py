@@ -177,6 +177,9 @@ while True:
 #        print ("HIGH BRT");
 
         cameraManager.highBrtMode();
+        
+        # Immediately send the error values through the network tables
+        networkTables.sendTargetData (-9999, -9999, -9999, -9999);
 
         # Update network table settings
         networkTables.update();

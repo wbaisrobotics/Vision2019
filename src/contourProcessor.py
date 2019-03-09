@@ -103,8 +103,8 @@ def findDeepSpaceTarget (boundingRects):
                 # Calculate the target ratio error (width / average height)
                 targetRatioError = abs(abs((x1 - x2) / ((height1 + height2)/2)) - visionConstants.targetRatio);
                 
-                print (targetRatioError);
-                
+#                print (targetRatioError);
+
                 # And the target ratio is acceptable
                 if (targetRatioError < visionConstants.targetRatioError):
                     
