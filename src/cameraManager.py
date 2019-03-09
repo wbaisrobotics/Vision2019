@@ -87,14 +87,10 @@ def init():
 
 def lowBrtMode():
 
-    hatchCam.setBrightness (0);
-    hatchCam.setFPS (30);
     hatchCam.setExposureManual (0);
 
 def highBrtMode():
 
-    hatchCam.setBrightness (50);
-    hatchCam.setFPS (15);
     hatchCam.setExposureAuto ();
 
 
