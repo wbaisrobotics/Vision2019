@@ -13,18 +13,29 @@ def initializeHatchVisionCap():
     # Print out statement for intializing the camera
     print("Starting Hatch Vision Camera")
     
-    # Initialize camera
-    camera = CameraServer.getInstance() \
-        .startAutomaticCapture(name="Hatch Vision Camera", path="/dev/v4l/by-path/platform-3f980000.usb-usb-0:1.4:1.0-video-index0")
+    # Get the camera server instance
+    inst = CameraServer.getInstance()
+    # Initialize the UsbCamera at the given port with the name from the webdashboard
+    camera = UsbCamera("Hatch Vision", "/dev/v4l/by-path/platform-3f980000.usb-usb-0:1.4:1.0-video-index0")
+    # Initialize the server for sending the images frmo the UsbCamera
+    server = inst.startAutomaticCapture(camera=camera, return_server=True)
     
-    camera.setFPS (10);
+    # Set the FPS of the camera
+    camera.setFPS (30);
+    # Set the connection strategy for the camera to maintain open
+    camera.setConnectionStrategy(VideoSource.ConnectionStrategy.kKeepOpen)
 
-    # Sets the resolution of the camera
+    # Set the resolution of the camera
     camera.setResolution (visionConstants.width, visionConstants.height)
-    # Sets the config JSON to that defined in visionConstants
+    # Set the config JSON to that defined in visionConstants
     camera.setConfigJson(visionConstants.cameraPropertiesJSON);
     
-    # Return the created camera
+    ## For stream compression
+    # Define a config for the stream (for compression)
+    streamConfig = '{"properties": [{"name": "compression","value": 50}]}';
+    # Set the config to the stream
+    server.setConfigJson(streamConfig)
+    
     return camera
 
 # Initializes and sets up the Hatch Driver camera
@@ -32,20 +43,32 @@ def initializeHatcherDriverCap():
     
     # Print out statement for intializing the camera
     print("Starting Hatch Driver Camera")
-    
-    # Initialize camera
-    camera = CameraServer.getInstance() \
-        .startAutomaticCapture(name="Hatch Driver Camera", path="/dev/v4l/by-path/platform-3f980000.usb-usb-0:1.3:1.0-video-index0")
-    
-    # Sets the resolution of the camera
-    camera.setResolution (160, 120)
-    camera.setBrightness (30);
-    camera.setFPS (10);
-    camera.setExposureAuto ();
-    # Sets the config JSON to that defined in visionConstants
-#    camera.setConfigJson(visionConstants.cameraPropertiesJSON);
 
-    # Return the created camera
+    # Get the camera server instance
+    inst = CameraServer.getInstance()
+    # Initialize the UsbCamera at the given port with the name from the webdashboard
+    camera = UsbCamera("Hatch Driver Camera", "/dev/v4l/by-path/platform-3f980000.usb-usb-0:1.3:1.0-video-index0")
+    # Initialize the server for sending the images frmo the UsbCamera
+    server = inst.startAutomaticCapture(camera=camera, return_server=True)
+    
+    # Set the resolution of the camera
+    camera.setResolution (160, 120)
+    # Set the brightness of the camera
+    camera.setBrightness (30);
+    # Set the FPS of the camera
+    camera.setFPS (10);
+    # Set the camera to auto exposure
+    camera.setExposureAuto ();
+    
+    # Set the connection strategy for the camera to maintain open
+    camera.setConnectionStrategy(VideoSource.ConnectionStrategy.kKeepOpen)
+    
+    ## For stream compression
+    # Define a config for the stream (for compression)
+    streamConfig = '{"properties": [{"name": "compression","value": 50}]}';
+    # Set the config to the stream
+    server.setConfigJson(streamConfig)
+    
     return camera
 
 # Initializes and sets up the Ball Vision camera
@@ -54,25 +77,31 @@ def initializeBallVisionCap():
     # Print out statement for intializing the camera
     print("Starting Ball Vision Camera")
     
-    # Initialize camera
-    camera = CameraServer.getInstance() \
-        .startAutomaticCapture(name="Ball Vision Camera", path="/dev/v4l/by-path/platform-3f980000.usb-usb-0:1.5:1.0-video-index0")
+    # Get the camera server instance
+    inst = CameraServer.getInstance()
+    # Initialize the UsbCamera at the given port with the name from the webdashboard
+    camera = UsbCamera("Ball Vision Camera", "/dev/v4l/by-path/platform-3f980000.usb-usb-0:1.5:1.0-video-index0")
+    # Initialize the server for sending the images frmo the UsbCamera
+    server = inst.startAutomaticCapture(camera=camera, return_server=True)
     
-    # Sets the resolution of the camera
+    # Set the resolution of the camera
     camera.setResolution (160, 120)
+    # Set the brightness of the camera
     camera.setBrightness (30);
+    # Set the FPS of the camera
     camera.setFPS (10);
+    # Set the camera to auto exposure
     camera.setExposureAuto ();
-
-    ballCameraPropertiesJSON = '{"properties": [{"name": "tilt_absolute","value": 0}]}';
-
-
-    camera.setConfigJson (ballCameraPropertiesJSON);
     
-    # Sets the config JSON to that defined in visionConstants
-#    camera.setConfigJson(visionConstants.cameraPropertiesJSON);
-
-    # Return the created camera
+    # Set the connection strategy for the camera to maintain open
+    camera.setConnectionStrategy(VideoSource.ConnectionStrategy.kKeepOpen)
+    
+    ## For stream compression
+    # Define a config for the stream (for compression)
+    streamConfig = '{"properties": [{"name": "compression","value": 50}]}';
+    # Set the config to the stream
+    server.setConfigJson(streamConfig)
+    
     return camera
 
 # Init function for starting the cameras
@@ -80,7 +109,7 @@ def init():
 
     # Initialize and define the properties of the camera
     global hatchCam
-    hatchCam = initializeHatchVisionCap()
+    hatchCam = initializeHatchVisionCap();
     global ballCam
     ballCam = initializeBallVisionCap();
     initializeHatcherDriverCap();
