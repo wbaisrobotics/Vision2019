@@ -5,7 +5,7 @@
 import visionConstants
 
 # Import cscore (FRC Library) for connecting more efficently to the streaming servers and cameras
-from cscore import CameraServer, VideoSource
+from cscore import CameraServer, VideoSource, UsbCamera
 
 # Initializes and sets up the Hatch Vision camera
 def initializeHatchVisionCap():
@@ -47,7 +47,7 @@ def initializeHatcherDriverCap():
     # Get the camera server instance
     inst = CameraServer.getInstance()
     # Initialize the UsbCamera at the given port with the name from the webdashboard
-    camera = UsbCamera("Hatch Driver Camera", "/dev/v4l/by-path/platform-3f980000.usb-usb-0:1.3:1.0-video-index0")
+    camera = UsbCamera("Hatch Driver", "/dev/v4l/by-path/platform-3f980000.usb-usb-0:1.3:1.0-video-index0")
     # Initialize the server for sending the images frmo the UsbCamera
     server = inst.startAutomaticCapture(camera=camera, return_server=True)
     
@@ -80,7 +80,7 @@ def initializeBallVisionCap():
     # Get the camera server instance
     inst = CameraServer.getInstance()
     # Initialize the UsbCamera at the given port with the name from the webdashboard
-    camera = UsbCamera("Ball Vision Camera", "/dev/v4l/by-path/platform-3f980000.usb-usb-0:1.5:1.0-video-index0")
+    camera = UsbCamera("Ball", "/dev/v4l/by-path/platform-3f980000.usb-usb-0:1.5:1.0-video-index0")
     # Initialize the server for sending the images frmo the UsbCamera
     server = inst.startAutomaticCapture(camera=camera, return_server=True)
     

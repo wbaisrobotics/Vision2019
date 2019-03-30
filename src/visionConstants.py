@@ -37,10 +37,10 @@ cameraPropertiesJSON = '{"properties": [{"name": "contrast","value": %d}, {"name
 # The default hue low value (0 to 360) - can be overriden during run time
 hueLow = 0;
 # The default hue high value (0 to 360) - can be overriden during run time
-hueHigh = 100;
+hueHigh = 50;
 
 # The default sat low value (0 to 255) - can be overriden during run time
-satLow = 50;
+satLow = 150;
 # The default sat high value (0 to 255) - can be overriden during run time
 satHigh = 255;
 

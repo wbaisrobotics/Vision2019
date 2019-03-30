@@ -68,29 +68,29 @@ while True:
         start = datetime.datetime.now();
 
         # If using the ball camera...
-        if (visionConstants.reverse):
-            # Grab a frame from the ball camera, returning the time of capture and the frame
-            time, frame = ballSink.grabFrame(frame)
-            # If error happened,
-            if time == 0:
-                # Output the error.
-                print(ballSink.getError());
-                # Update network table settings
-                networkTables.update();
-                # Skip the rest of the current iteration
-                continue
-        # If using the hatch camera
-        else:
-            # Grab a frame from the hatch camera, returning the time of capture and the frame
-            time, frame = hatchSink.grabFrame(frame)
-            # If error happened,
-            if time == 0:
-                # Output the error.
-                print(hatchSink.getError());
-                # Update network table settings
-                networkTables.update();
-                # Skip the rest of the current iteration
-                continue;
+#        if (visionConstants.reverse):
+#            # Grab a frame from the ball camera, returning the time of capture and the frame
+#            time, frame = ballSink.grabFrame(frame)
+#            # If error happened,
+#            if time == 0:
+#                # Output the error.
+#                print(ballSink.getError());
+#                # Update network table settings
+#                networkTables.update();
+#                # Skip the rest of the current iteration
+#                continue
+#        # If using the hatch camera
+#        else:
+        # Grab a frame from the hatch camera, returning the time of capture and the frame
+        time, frame = hatchSink.grabFrame(frame)
+        # If error happened,
+        if time == 0:
+            # Output the error.
+            print(hatchSink.getError());
+            # Update network table settings
+            networkTables.update();
+            # Skip the rest of the current iteration
+            continue;
 
         # Measure the time after grabbing the frame
         afterFrameGrab = datetime.datetime.now();
